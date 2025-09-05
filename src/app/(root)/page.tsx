@@ -1,0 +1,9 @@
+import React from 'react'
+
+function Dashboard() {
+  return (
+    <div className='mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 xl:gap-10'>Dashboard</div>
+  )
+}
+
+export default Dashboard
