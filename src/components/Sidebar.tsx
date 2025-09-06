@@ -7,12 +7,12 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  fullName: string;
-  avatar: string;
-  email: string;
+    name: string;
+    image?: string | null;
+    email: string;
 }
 
-const Sidebar = () => {
+const Sidebar = ({name, image, email}: Props) => {
   const pathname = usePathname();
 
   return (
@@ -72,15 +72,15 @@ const Sidebar = () => {
 
       <div className="flex items-center justify-center gap-2 rounded-xl bg-brand/10 p-1 text-light-100 lg:justify-start lg:p-3">
         <Image
-          src="/assets/images/user.png"
+          src={image ?? "/assets/images/user.png"}
           alt="Avatar"
           width={44}
           height={44}
           className="aspect-square w-10 rounded-full object-cover"
         />
         <div className="hidden lg:block">
-          <p className="subtitle-2 capitalize">fullName</p>
-          <p className="caption">email</p>
+          <p className="subtitle-2 capitalize">{name }</p>
+          <p className="caption">{ email}</p>
         </div>
       </div>
     </aside>

@@ -5,6 +5,8 @@ import { Models } from "node-appwrite";
 
 export declare type FileType = "document" | "image" | "video" | "audio" | "other";
 
+
+
 declare interface ActionType {
   label: string;
   icon: string;
