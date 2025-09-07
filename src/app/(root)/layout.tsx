@@ -11,9 +11,8 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
   const session = await getServerSession(authOptions);
   const user = session?.user;
-console.log(user)
 
-  if (!user?.name || !user?.email ) {
+  if (!user?.name || !user?.email) {
     return redirect("/sign-in");
   } 
   
@@ -22,7 +21,7 @@ console.log(user)
       <Sidebar name={user.name} image={user.image} email={user.email} />
       <section className="flex h-full flex-1 flex-col">
               <MobileNavigation />
-              <Header />
+              <Header {...user} />
         <div className="h-full flex-1 overflow-auto bg-light-400 px-5 py-7 sm:mr-7 sm:rounded-[30px] md:mb-7 md:px-9 md:py-10">{children}</div>
       </section>
 

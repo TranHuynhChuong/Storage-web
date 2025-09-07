@@ -4,7 +4,7 @@ import { cn, getFileIcon } from "@/lib/utils";
 
 interface Props {
   type: string;
-  extension: string;
+  extension?: string;
   url?: string;
   imageClassName?: string;
   className?: string;
