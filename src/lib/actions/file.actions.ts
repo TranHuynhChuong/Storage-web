@@ -94,6 +94,10 @@ const createQueries = (
     );
   }
 
+  queries.push(
+    Query.select(["*", "owner.*"])
+  );
+
   return queries;
 };
 
@@ -199,13 +203,13 @@ export const updateFileUsers = async ({
 
 export interface DeleteFileProps {
   fileId: string;
-  bucketFileId: string;
+  bucketId: string;
   path: string;
 }
 
 export const deleteFile = async ({
   fileId,
-  bucketFileId,
+  bucketId,
   path,
 }: DeleteFileProps) => {
   const { databases, storage } = await createAdminClient();
@@ -218,7 +222,7 @@ export const deleteFile = async ({
     );
 
     if (deletedFile) {
-      await storage.deleteFile(appwriteConfig.bucketId, bucketFileId);
+      await storage.deleteFile(appwriteConfig.bucketId, bucketId);
     }
 
     revalidatePath(path);
