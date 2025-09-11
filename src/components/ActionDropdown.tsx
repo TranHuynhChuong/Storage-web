@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Dialog,
@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,22 +14,22 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-import Image from "next/image";
-import { actionsDropdownItems } from "@/constants";
-import Link from "next/link";
-import { constructDownloadUrl } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/dropdown-menu';
+import { useState } from 'react';
+import Image from 'next/image';
+import { actionsDropdownItems } from '@/constants';
+import Link from 'next/link';
+import { constructDownloadUrl } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   deleteFile,
   renameFile,
   updateFileUsers,
-} from "@/lib/actions/file.actions";
-import { usePathname } from "next/navigation";
-import { FileDetails, ShareInput } from "@/components/ActionsModalContent";
-import { ActionType, TypeFile } from "@/types";
+} from '@/lib/actions/file.actions';
+import { usePathname } from 'next/navigation';
+import { FileDetails, ShareInput } from '@/components/ActionsModalContent';
+import { ActionType, TypeFile } from '@/types';
 
 const ActionDropdown = ({ file }: { file: TypeFile }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -93,34 +93,38 @@ const ActionDropdown = ({ file }: { file: TypeFile }) => {
           <DialogTitle className="text-center text-light-100">
             {label}
           </DialogTitle>
-          {value === "rename" && (
+          {value === 'rename' && (
             <Input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           )}
-          {value === "details" && <FileDetails file={file} />}
-          {value === "share" && (
+          {value === 'details' && <FileDetails file={file} />}
+          {value === 'share' && (
             <ShareInput
               file={file}
               onInputChange={setEmails}
               onRemove={handleRemoveUser}
             />
           )}
-          {value === "delete" && (
+          {value === 'delete' && (
             <p className="text-center text-light-100">
               Are you sure you want to delete{` `}
               <span className="font-medium text-brand-100">{file.name}</span>?
             </p>
           )}
         </DialogHeader>
-        {["rename", "delete", "share"].includes(value) && (
+        {['rename', 'delete', 'share'].includes(value) && (
           <DialogFooter className="flex flex-col gap-3 md:flex-row">
-            <Button onClick={closeAllModals} className="h-[52px] flex-1 rounded-full bg-white text-light-100 hover:bg-transparent cursor-pointer border">
+            <Button
+              onClick={closeAllModals}
+              className="h-[52px] flex-1 rounded-full bg-white text-light-100 hover:bg-transparent cursor-pointer border">
               Cancel
             </Button>
-            <Button onClick={handleAction} className="primary-btn !mx-0 h-[52px] w-full flex-1 cursor-pointer">
+            <Button
+              onClick={handleAction}
+              className="primary-btn !mx-0 h-[52px] w-full flex-1 cursor-pointer">
               <p className="capitalize">{value}</p>
               {isLoading && (
                 <Image
@@ -162,20 +166,18 @@ const ActionDropdown = ({ file }: { file: TypeFile }) => {
                 setAction(actionItem);
 
                 if (
-                  ["rename", "share", "delete", "details"].includes(
+                  ['rename', 'share', 'delete', 'details'].includes(
                     actionItem.value,
                   )
                 ) {
                   setIsModalOpen(true);
                 }
-              }}
-            >
-              {actionItem.value === "download" ? (
+              }}>
+              {actionItem.value === 'download' ? (
                 <Link
                   href={constructDownloadUrl(file.bucketId)}
                   download={file.name}
-                  className="flex items-center gap-2"
-                >
+                  className="flex items-center gap-2">
                   <Image
                     src={actionItem.icon}
                     alt={actionItem.label}

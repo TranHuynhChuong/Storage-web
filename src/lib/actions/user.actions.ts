@@ -1,9 +1,9 @@
-"use server";
+'use server';
 
-import { createAdminClient, createSessionClient } from "@/lib/appwrite";
-import { appwriteConfig } from "@/lib/appwrite/config";
-import { Query, ID } from "node-appwrite";
-import { parseStringify } from "@/lib/utils";
+import { createAdminClient } from '@/lib/appwrite';
+import { appwriteConfig } from '@/lib/appwrite/config';
+import { Query, ID } from 'node-appwrite';
+import { parseStringify } from '@/lib/utils';
 
 export const getUserByEmail = async (email: string) => {
   const { databases } = await createAdminClient();
@@ -11,7 +11,7 @@ export const getUserByEmail = async (email: string) => {
   const result = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.usersTable,
-    [Query.equal("email", [email])],
+    [Query.equal('email', [email])],
   );
 
   return result.total > 0 ? result.documents[0] : null;
@@ -22,14 +22,13 @@ const handleError = (error: unknown, message: string) => {
   throw error;
 };
 
-
 export const createUser = async ({
-    accountId,
+  accountId,
   fullName,
   email,
   avatar,
 }: {
-    accountId: string;
+  accountId: string;
   fullName: string;
   email: string;
   avatar?: string | null;
@@ -41,8 +40,7 @@ export const createUser = async ({
     if (existingUser) {
       // Kiểm tra khác biệt
       const needUpdate =
-        existingUser.fullName !== fullName ||
-        existingUser.avatar !== avatar;
+        existingUser.fullName !== fullName || existingUser.avatar !== avatar;
 
       if (needUpdate) {
         const { databases } = await createAdminClient();
@@ -51,8 +49,8 @@ export const createUser = async ({
           databaseId: appwriteConfig.databaseId,
           collectionId: appwriteConfig.usersTable,
           documentId: existingUser.$id,
-            data: {
-              accountId,
+          data: {
+            accountId,
             fullName,
             email,
             avatar,
@@ -68,8 +66,8 @@ export const createUser = async ({
         databaseId: appwriteConfig.databaseId,
         collectionId: appwriteConfig.usersTable,
         documentId: ID.unique(),
-          data: {
-            accountId,
+        data: {
+          accountId,
           fullName,
           email,
           avatar,
@@ -79,6 +77,6 @@ export const createUser = async ({
 
     return parseStringify({ userId: user.$id });
   } catch (error) {
-    handleError(error, "Failed to create or update user");
+    handleError(error, 'Failed to create or update user');
   }
 };

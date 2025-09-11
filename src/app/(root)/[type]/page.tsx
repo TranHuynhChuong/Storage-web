@@ -1,13 +1,12 @@
-import React from "react";
-import Sort from "@/components/Sort";
-import { getFiles } from "@/lib/actions/file.actions";
-import Card from "@/components/Card";
-import { convertFileSize, getFileTypesParams } from "@/lib/utils";
-import { FileType, TypeFile } from "@/types";
-import { authOptions } from "@/auth";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-
+import React from 'react';
+import Sort from '@/components/Sort';
+import { getFiles } from '@/lib/actions/file.actions';
+import Card from '@/components/Card';
+import { convertFileSize, getFileTypesParams } from '@/lib/utils';
+import { FileType, TypeFile } from '@/types';
+import { authOptions } from '@/auth';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
 type SearchParamProps = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -15,27 +14,29 @@ type SearchParamProps = {
 };
 
 const Page = async ({ searchParams, params }: SearchParamProps) => {
-  const type = ((await params)?.type as string) || "";
-  const searchText = ((await searchParams)?.query as string) || "";
-  const sort = ((await searchParams)?.sort as string) || "";
+  const type = ((await params)?.type as string) || '';
+  const searchText = ((await searchParams)?.query as string) || '';
+  const sort = ((await searchParams)?.sort as string) || '';
 
-    const types = getFileTypesParams(type) as FileType[];
-    
+  const types = getFileTypesParams(type) as FileType[];
+
   const session = await getServerSession(authOptions);
   const user = session?.user;
-    
-    if (!user?.id || !user?.email) {
-        return redirect("/sign-in");
-    } 
-    
+
+  if (!user?.id || !user?.email) {
+    return redirect('/sign-in');
+  }
+
   const files = await getFiles({
     currentUser: { id: user?.id, email: user?.email },
     types,
     searchText,
     sort,
   });
-   const totalSize = files.documents.reduce((sum: number, doc: TypeFile) => sum + doc.size, 0);
-    console.log(files);
+  const totalSize = files.documents.reduce(
+    (sum: number, doc: TypeFile) => sum + doc.size,
+    0,
+  );
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-8">
       <section className="w-full">
@@ -62,7 +63,9 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
           ))}
         </section>
       ) : (
-        <p className="body-1 mt-10 text-center text-light-200">No files uploaded</p>
+        <p className="body-1 mt-10 text-center text-light-200">
+          No files uploaded
+        </p>
       )}
     </div>
   );

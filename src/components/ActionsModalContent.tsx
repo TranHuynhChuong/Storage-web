@@ -1,12 +1,12 @@
-import { Models } from "node-appwrite";
-import Thumbnail from "@/components/Thumbnail";
-import FormattedDateTime from "@/components/FormattedDateTime";
-import { convertFileSize, formatDateTime } from "@/lib/utils";
-import React from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { TypeFile } from "@/types";
+import { Models } from 'node-appwrite';
+import Thumbnail from '@/components/Thumbnail';
+import FormattedDateTime from '@/components/FormattedDateTime';
+import { convertFileSize, formatDateTime } from '@/lib/utils';
+import React from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { TypeFile } from '@/types';
 
 const ImageThumbnail = ({ file }: { file: TypeFile }) => (
   <div className="!mb-1 flex items-center gap-3 rounded-xl border border-light-200/40 bg-light-400/50 p-3">
@@ -57,7 +57,7 @@ export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
         <Input
           type="email"
           placeholder="Enter email address"
-          onChange={(e) => onInputChange(e.target.value.trim().split(","))}
+          onChange={(e) => onInputChange(e.target.value.trim().split(','))}
           className="body-2 shad-no-focus h-[52px] w-full rounded-full border px-4 shadow-drop-1"
         />
         <div className="pt-4">
@@ -72,13 +72,11 @@ export const ShareInput = ({ file, onInputChange, onRemove }: Props) => {
             {file.users.map((email: string) => (
               <li
                 key={email}
-                className="flex items-center justify-between gap-2"
-              >
+                className="flex items-center justify-between gap-2">
                 <p className="subtitle-2">{email}</p>
                 <Button
                   onClick={() => onRemove(email)}
-                  className="rounded-full bg-transparent text-light-100 shadow-none hover:bg-transparent"
-                >
+                  className="rounded-full bg-transparent text-light-100 shadow-none hover:bg-transparent">
                   <Image
                     src="/assets/icons/remove.svg"
                     alt="Remove"

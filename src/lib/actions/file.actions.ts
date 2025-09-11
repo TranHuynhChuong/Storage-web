@@ -1,12 +1,12 @@
-"use server";
+'use server';
 
-import { createAdminClient, createSessionClient } from "@/lib/appwrite";
-import { InputFile } from "node-appwrite/file";
-import { appwriteConfig } from "@/lib/appwrite/config";
-import { ID,  Query } from "node-appwrite";
-import { constructFileUrl, getFileType, parseStringify } from "@/lib/utils";
-import { revalidatePath } from "next/cache";
-import { FileType } from "@/types";
+import { createAdminClient } from '@/lib/appwrite';
+import { InputFile } from 'node-appwrite/file';
+import { appwriteConfig } from '@/lib/appwrite/config';
+import { ID, Query } from 'node-appwrite';
+import { constructFileUrl, getFileType, parseStringify } from '@/lib/utils';
+import { revalidatePath } from 'next/cache';
+import { FileType } from '@/types';
 
 const handleError = (error: unknown, message: string) => {
   console.log(error, message);
@@ -19,11 +19,7 @@ export interface UploadFileProps {
   path: string;
 }
 
-export const uploadFile = async ({
-  file,
-  ownerId,
-  path,
-}: UploadFileProps) => {
+export const uploadFile = async ({ file, ownerId, path }: UploadFileProps) => {
   const { storage, databases } = await createAdminClient();
 
   try {
@@ -55,20 +51,20 @@ export const uploadFile = async ({
       )
       .catch(async (error: unknown) => {
         await storage.deleteFile(appwriteConfig.bucketId, bucketFile.$id);
-        handleError(error, "Failed to create file document");
+        handleError(error, 'Failed to create file document');
       });
 
     revalidatePath(path);
     return parseStringify(newFile);
   } catch (error) {
-    handleError(error, "Failed to upload file");
+    handleError(error, 'Failed to upload file');
   }
 };
 
 const createQueries = (
-    currentUser: {
-        id: string,
-        email: string,
+  currentUser: {
+    id: string;
+    email: string;
   },
   types: string[],
   searchText: string,
@@ -77,35 +73,33 @@ const createQueries = (
 ) => {
   const queries = [
     Query.or([
-      Query.equal("owner", [currentUser.id]),
-      Query.contains("users", [currentUser.email]),
+      Query.equal('owner', [currentUser.id]),
+      Query.contains('users', [currentUser.email]),
     ]),
   ];
 
-  if (types.length > 0) queries.push(Query.equal("type", types));
-  if (searchText) queries.push(Query.contains("name", searchText));
+  if (types.length > 0) queries.push(Query.equal('type', types));
+  if (searchText) queries.push(Query.contains('name', searchText));
   if (limit) queries.push(Query.limit(limit));
 
   if (sort) {
-    const [sortBy, orderBy] = sort.split("-");
+    const [sortBy, orderBy] = sort.split('-');
 
     queries.push(
-      orderBy === "asc" ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy),
+      orderBy === 'asc' ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy),
     );
   }
 
-  queries.push(
-    Query.select(["*", "owner.*"])
-  );
+  queries.push(Query.select(['*', 'owner.*']));
 
   return queries;
 };
 
 export interface GetFilesProps {
-    currentUser?: {
-        id: string,
-        email: string,
-  },
+  currentUser?: {
+    id: string;
+    email: string;
+  };
   types?: FileType[];
   searchText?: string;
   sort?: string;
@@ -113,17 +107,16 @@ export interface GetFilesProps {
 }
 
 export const getFiles = async ({
-    currentUser,
+  currentUser,
   types = [],
-  searchText = "",
-  sort = "$createdAt-desc",
+  searchText = '',
+  sort = '$createdAt-desc',
   limit,
 }: GetFilesProps) => {
   const { databases } = await createAdminClient();
 
   try {
-
-    if (!currentUser) throw new Error("User not found");
+    if (!currentUser) throw new Error('User not found');
 
     const queries = createQueries(currentUser, types, searchText, sort, limit);
 
@@ -135,7 +128,7 @@ export const getFiles = async ({
 
     return parseStringify(files);
   } catch (error) {
-    handleError(error, "Failed to get files");
+    handleError(error, 'Failed to get files');
   }
 };
 
@@ -167,7 +160,7 @@ export const renameFile = async ({
     revalidatePath(path);
     return parseStringify(updatedFile);
   } catch (error) {
-    handleError(error, "Failed to rename file");
+    handleError(error, 'Failed to rename file');
   }
 };
 
@@ -197,7 +190,7 @@ export const updateFileUsers = async ({
     revalidatePath(path);
     return parseStringify(updatedFile);
   } catch (error) {
-    handleError(error, "Failed to rename file");
+    handleError(error, 'Failed to rename file');
   }
 };
 
@@ -226,33 +219,33 @@ export const deleteFile = async ({
     }
 
     revalidatePath(path);
-    return parseStringify({ status: "success" });
+    return parseStringify({ status: 'success' });
   } catch (error) {
-    handleError(error, "Failed to rename file");
+    handleError(error, 'Failed to rename file');
   }
 };
 
 // ============================== TOTAL FILE SPACE USED
 export async function getTotalSpaceUsed(currentUser?: {
-        id: string,
-        email: string,
-  }) {
+  id: string;
+  email: string;
+}) {
   try {
-    const { databases } = await createSessionClient();
-    if (!currentUser) throw new Error("User is not authenticated.");
+    const { databases } = await createAdminClient();
+    if (!currentUser) throw new Error('User is not authenticated.');
 
     const files = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.filesTable,
-      [Query.equal("owner", [currentUser.id])],
+      [Query.equal('owner', [currentUser.id])],
     );
 
     const totalSpace = {
-      image: { size: 0, latestDate: "" },
-      document: { size: 0, latestDate: "" },
-      video: { size: 0, latestDate: "" },
-      audio: { size: 0, latestDate: "" },
-      other: { size: 0, latestDate: "" },
+      image: { size: 0, latestDate: '' },
+      document: { size: 0, latestDate: '' },
+      video: { size: 0, latestDate: '' },
+      audio: { size: 0, latestDate: '' },
+      other: { size: 0, latestDate: '' },
       used: 0,
       all: 2 * 1024 * 1024 * 1024 /* 2GB available bucket storage */,
     };
@@ -272,6 +265,6 @@ export async function getTotalSpaceUsed(currentUser?: {
 
     return parseStringify(totalSpace);
   } catch (error) {
-    handleError(error, "Error calculating total space used:, ");
+    handleError(error, 'Error calculating total space used:, ');
   }
 }

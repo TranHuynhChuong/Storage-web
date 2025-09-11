@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState } from 'react';
 
-import { useDropzone } from "react-dropzone";
-import { Button } from "@/components/ui/button";
-import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
-import Image from "next/image";
-import Thumbnail from "@/components/Thumbnail";
-import { MAX_FILE_SIZE } from "@/constants";
-import { toast } from "sonner"
-import { uploadFile } from "@/lib/actions/file.actions";
-import { usePathname } from "next/navigation";
+import { useDropzone } from 'react-dropzone';
+import { Button } from '@/components/ui/button';
+import { cn, convertFileToUrl, getFileType } from '@/lib/utils';
+import Image from 'next/image';
+import Thumbnail from '@/components/Thumbnail';
+import { MAX_FILE_SIZE } from '@/constants';
+import { toast } from 'sonner';
+import { uploadFile } from '@/lib/actions/file.actions';
+import { usePathname } from 'next/navigation';
 
 interface Props {
   ownerId: string;
@@ -25,8 +25,8 @@ const FileUploader = ({ ownerId, className }: Props) => {
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       setFiles(acceptedFiles);
-          console.log(ownerId)
-          if (!ownerId) return;
+      console.log(ownerId);
+      if (!ownerId) return;
       const uploadPromises = acceptedFiles.map(async (file) => {
         if (file.size > MAX_FILE_SIZE) {
           setFiles((prevFiles) =>
@@ -35,15 +35,13 @@ const FileUploader = ({ ownerId, className }: Props) => {
           toast.error(`${file.name} is too large. Max file size is 50MB.`);
         }
 
-        return uploadFile({ file, ownerId, path }).then(
-          (uploadedFile) => {
-            if (uploadedFile) {
-              setFiles((prevFiles) =>
-                prevFiles.filter((f) => f.name !== file.name),
-              );
-            }
-          },
-        );
+        return uploadFile({ file, ownerId, path }).then((uploadedFile) => {
+          if (uploadedFile) {
+            setFiles((prevFiles) =>
+              prevFiles.filter((f) => f.name !== file.name),
+            );
+          }
+        });
       });
 
       await Promise.all(uploadPromises);
@@ -64,13 +62,18 @@ const FileUploader = ({ ownerId, className }: Props) => {
   return (
     <div {...getRootProps()} className="cursor-pointer">
       <input {...getInputProps()} />
-      <Button type="button" className={cn("primary-btn h-[46px] gap-2 px-10 shadow-drop-1", className)}>
+      <Button
+        type="button"
+        className={cn(
+          'primary-btn h-[46px] gap-2 px-10 shadow-drop-1',
+          className,
+        )}>
         <Image
           src="/assets/icons/upload.svg"
           alt="upload"
           width={24}
           height={24}
-        />{" "}
+        />{' '}
         <p>Upload</p>
       </Button>
       {files.length > 0 && (
@@ -83,8 +86,7 @@ const FileUploader = ({ ownerId, className }: Props) => {
             return (
               <li
                 key={`${file.name}-${index}`}
-                className="flex items-center justify-between  gap-3 rounded-xl p-3 shadow-drop-3"
-              >
+                className="flex items-center justify-between  gap-3 rounded-xl p-3 shadow-drop-3">
                 <div className="flex items-center gap-3">
                   <Thumbnail
                     type={type}
@@ -95,7 +97,7 @@ const FileUploader = ({ ownerId, className }: Props) => {
                   <div className="subtitle-2 mb-2 line-clamp-1 max-w-[300px]">
                     {file.name}
                     <div className="w-20 h-2 bg-gray-200 rounded overflow-hidden">
-                        <div className="h-full bg-brand animate-loading"></div>
+                      <div className="h-full bg-brand animate-loading"></div>
                     </div>
                   </div>
                 </div>

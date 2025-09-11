@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import Image from "next/image";
-import { navItems } from "@/constants";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import Link from 'next/link';
+import Image from 'next/image';
+import { navItems } from '@/constants';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 interface Props {
-    name: string;
-    image?: string | null;
-    email: string;
+  name: string;
+  image?: string | null;
+  email: string;
 }
 
-const Sidebar = ({name, image, email}: Props) => {
+const Sidebar = ({ name, image, email }: Props) => {
   const pathname = usePathname();
 
   return (
@@ -41,18 +41,17 @@ const Sidebar = ({name, image, email}: Props) => {
             <Link key={name} href={url} className="lg:w-full">
               <li
                 className={cn(
-                  "flex text-light-100 gap-4 rounded-xl lg:w-full justify-center lg:justify-start items-center h5 lg:px-[30px] h-[48px] lg:rounded-full",
-                  pathname === url && "bg-brand text-white shadow-drop-2",
-                )}
-              >
+                  'flex text-light-100 gap-4 rounded-xl lg:w-full justify-center lg:justify-start items-center h5 lg:px-[30px] h-[48px] lg:rounded-full',
+                  pathname === url && 'bg-brand text-white shadow-drop-2',
+                )}>
                 <Image
                   src={icon}
                   alt={name}
                   width={24}
                   height={24}
                   className={cn(
-                    "w-6 filter invert opacity-25",
-                    pathname === url && "invert-0 opacity-100",
+                    'w-6 filter invert opacity-25',
+                    pathname === url && 'invert-0 opacity-100',
                   )}
                 />
                 <p className="hidden lg:block">{name}</p>
@@ -72,15 +71,15 @@ const Sidebar = ({name, image, email}: Props) => {
 
       <div className="flex items-center justify-center gap-2 rounded-xl bg-brand/10 p-1 text-light-100 lg:justify-start lg:p-3">
         <Image
-          src={image ?? "/assets/images/user.png"}
+          src={image ?? '/assets/images/user.png'}
           alt="Avatar"
           width={44}
           height={44}
           className="aspect-square w-10 rounded-full object-cover"
         />
         <div className="hidden lg:block">
-          <p className="subtitle-2 capitalize">{name }</p>
-          <p className="caption">{ email}</p>
+          <p className="subtitle-2 capitalize">{name}</p>
+          <p className="caption">{email}</p>
         </div>
       </div>
     </aside>

@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
 import {
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import Image from "next/image";
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
-import { Separator } from "@radix-ui/react-separator";
-import { navItems } from "@/constants";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/sheet';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { Separator } from '@radix-ui/react-separator';
+import { navItems } from '@/constants';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 interface Props {
   $id: string;
@@ -70,18 +70,17 @@ const MobileNavigation = () => {
                 <Link key={name} href={url} className="lg:w-full">
                   <li
                     className={cn(
-                      "flex text-light-100 gap-4 w-full justify-start items-center h5 px-6 h-[52px] rounded-full",
-                      pathname === url && "bg-brand text-white shadow-drop-2",
-                    )}
-                  >
+                      'flex text-light-100 gap-4 w-full justify-start items-center h5 px-6 h-[52px] rounded-full',
+                      pathname === url && 'bg-brand text-white shadow-drop-2',
+                    )}>
                     <Image
                       src={icon}
                       alt={name}
                       width={24}
                       height={24}
                       className={cn(
-                        "w-6 filter invert opacity-25",
-                        pathname === url && "invert-0 opacity-100",
+                        'w-6 filter invert opacity-25',
+                        pathname === url && 'invert-0 opacity-100',
                       )}
                     />
                     <p>{name}</p>
@@ -94,18 +93,15 @@ const MobileNavigation = () => {
           <Separator className="my-5 bg-light-200/20" />
 
           <div className="flex flex-col justify-between gap-5 pb-5">
-
             <Button
               type="submit"
               className="h5 flex h-[52px] w-full items-center gap-4 rounded-full bg-brand/10 px-6 text-brand shadow-none transition-all hover:bg-brand/20"
-              onClick={()=>{}}
-            >
+              onClick={() => {}}>
               <Image
                 src="/assets/icons/logout.svg"
                 alt="logo"
                 width={24}
                 height={24}
-                    
               />
               <p>Logout</p>
             </Button>

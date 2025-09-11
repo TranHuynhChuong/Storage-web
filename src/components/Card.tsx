@@ -1,13 +1,16 @@
-import Link from "next/link";
-import Thumbnail from "@/components/Thumbnail";
-import { convertFileSize } from "@/lib/utils";
-import FormattedDateTime from "@/components/FormattedDateTime";
-import ActionDropdown from "@/components/ActionDropdown";
-import { TypeFile } from "@/types";
+import Link from 'next/link';
+import Thumbnail from '@/components/Thumbnail';
+import { convertFileSize } from '@/lib/utils';
+import FormattedDateTime from '@/components/FormattedDateTime';
+import ActionDropdown from '@/components/ActionDropdown';
+import { TypeFile } from '@/types';
 
 const Card = ({ file }: { file: TypeFile }) => {
   return (
-    <Link href={file.url} target="_blank" className="flex cursor-pointer flex-col gap-6 rounded-[18px] bg-white p-5 shadow-sm transition-all hover:shadow-drop-3">
+    <Link
+      href={file.url}
+      target="_blank"
+      className="flex cursor-pointer flex-col gap-6 rounded-[18px] bg-white p-5 shadow-sm transition-all hover:shadow-drop-3">
       <div className="flex justify-between">
         <Thumbnail
           type={file.type}
